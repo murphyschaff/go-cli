@@ -13,6 +13,15 @@ func main() {
 
 	list := CommandList{Path: path}
 
+	for {
+		AddModule(list)
+		if YN("Would you like to add another module?") {
+			break
+		}
+	}
+	fmt.Println("Saving to file...")
+	list.Save()
+
 }
 
 // validates a given value for option
