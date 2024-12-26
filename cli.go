@@ -27,7 +27,7 @@ type CommandList struct {
 }
 
 // save CLI commands to base file path
-func (l CommandList) Save() error {
+func (l *CommandList) Save() error {
 	file, err := os.Create(l.Path)
 	if err != nil {
 		return fmt.Errorf("unable to open path file: %s", err)
@@ -45,7 +45,7 @@ func (l CommandList) Save() error {
 }
 
 // add new commands to list, saves list
-func (l CommandList) AddModule(path string) error {
+func (l *CommandList) AddModule(path string) error {
 	file, err := os.Open(path)
 	if err != nil {
 		return fmt.Errorf("unable to open command file %s", err)
@@ -66,7 +66,7 @@ func (l CommandList) AddModule(path string) error {
 }
 
 // removes commands associated with a given module from the list
-func (l CommandList) RemoveModule(module_name string) error {
+func (l *CommandList) RemoveModule(module_name string) error {
 	for i, module := range l.Modules {
 		if module.Name == module_name {
 			l.Modules = append(l.Modules[:i], l.Modules[i+1:]...)
@@ -77,7 +77,7 @@ func (l CommandList) RemoveModule(module_name string) error {
 }
 
 // searches list for the name of a command, returns an error if nothing can be found
-func (l CommandList) FindCommand(module_name string, command_name string) (Command, error) {
+func (l *CommandList) FindCommand(module_name string, command_name string) (Command, error) {
 
 	ret_command := Command{Name: "nil"}
 

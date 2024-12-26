@@ -23,7 +23,7 @@ type BaseInterface struct {
 }
 
 // initializes new command line interface
-func (b BaseInterface) Initialize() error {
+func (b *BaseInterface) Initialize() error {
 	fmt.Println("Initializing interface...")
 	Commands := CommandList{Path: b.CommandPath}
 	err := Commands.AddModule(b.CommandPath)
@@ -34,7 +34,7 @@ func (b BaseInterface) Initialize() error {
 	return b.Run()
 }
 
-func (b BaseInterface) Run() error {
+func (b *BaseInterface) Run() error {
 	var input string
 	for {
 		fmt.Print(b.ProgramName + ">: ")
@@ -52,7 +52,15 @@ func (b BaseInterface) Run() error {
 				b.List()
 			}
 		}
+		if len_query == 1 && query[0] == "exit" {
+			//exit CLI
+			return nil
+		}
 		//run query
+		err := b.Query(query)
+		if err != nil {
+			return fmt.Errorf("failed to run query: %s", err)
+		}
 	}
 }
 
@@ -93,7 +101,7 @@ func (b *BaseInterface) ListCommand(command_name string) {
 }
 
 // matches given commands to functions
-func (b *BaseInterface) Query(query string) error {
+func (b *BaseInterface) Query(query []string) error {
 	fmt.Println("Implement me.")
 	return nil
 }

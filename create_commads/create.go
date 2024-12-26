@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+
+	"github.com/murphyschaff/go-cli"
 )
 
 func main() {
@@ -11,10 +13,10 @@ func main() {
 	name := validate("Program Name")
 	path := "./" + name + ".json"
 
-	list := CommandList{Path: path}
+	list := cli.CommandList{Path: path}
 
 	for {
-		AddModule(list)
+		AddModule(&list)
 		if YN("Would you like to add another module?") {
 			break
 		}
@@ -37,12 +39,12 @@ func validate(option string) string {
 			validate = false
 		} else if input == "N" {
 			fmt.Printf("Please enter a new value for %s", option)
-			fmt.Scanln(&value)
+			fmt.Scanln(&input)
 		} else {
 			fmt.Println("Invalid key entered.")
 		}
 	}
-	return value
+	return input
 }
 
 func YN(message string) bool {
@@ -61,7 +63,7 @@ func YN(message string) bool {
 	}
 }
 
-func AddCommand(module *CommandModule) {
+func AddCommand(module *cli.CommandModule) {
 	fmt.Println("Please enter the name of the command")
 	name := validate("Command Name")
 	fmt.Printf("Please enter a description for %s\n", name)
@@ -71,19 +73,19 @@ func AddCommand(module *CommandModule) {
 	fmt.Printf("Please enter the function name %s will call\n", name)
 	function := validate("Command Function")
 
-	command := Command{Name: name, Description: description, Usage: usage, Function: function}
+	command := cli.Command{Name: name, Description: description, Usage: usage, Function: function}
 
 	module.Commands = append(module.Commands, command)
 
 }
 
-func AddModule(list *CommandList) {
+func AddModule(list *cli.CommandList) {
 	fmt.Println("Enter a name for the module")
 	name := validate("Module Name")
 	fmt.Printf("Enter a description for the %s module\n", name)
 	description := validate("Description")
 
-	module := CommandModule{Name: name, Description: description}
+	module := cli.CommandModule{Name: name, Description: description}
 	for {
 		AddCommand(&module)
 		if YN("Would you like to add another command to the " + name + " module?") {
