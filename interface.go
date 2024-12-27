@@ -22,18 +22,19 @@ type BaseInterface struct {
 	CommandPath string
 }
 
-// initializes new command line interface
-func (b *BaseInterface) Initialize() error {
-	fmt.Println("Initializing interface...")
-	Commands := CommandList{Path: b.CommandPath}
-	err := Commands.AddModule(b.CommandPath)
+// creates new BaseInterfae objet
+func New(name string, path string) (*BaseInterface, error) {
+	commands := CommandList{Path: path}
+	err := commands.Load()
 	if err != nil {
-		return fmt.Errorf("unable to start interface: %s", err)
+		return nil, fmt.Errorf("unable to start interface: %s", err)
 	}
-	fmt.Println("Commands found, loaded. Starting interface...")
-	return b.Run()
+
+	init := BaseInterface{Commands: commands, ProgramName: name, CommandPath: path}
+	return &init, nil
 }
 
+// loop that runs the CLI interface
 func (b *BaseInterface) Run() error {
 	var input string
 	for {

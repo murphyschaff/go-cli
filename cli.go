@@ -15,15 +15,15 @@ type Command struct {
 }
 
 type CommandModule struct {
-	Name        string    `json:"name"`
-	Description string    `json:"description"`
-	Path        string    `json:"path"`
-	Commands    []Command `json:"commands"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Path        string     `json:"path"`
+	Commands    []*Command `json:"commands"`
 }
 
 type CommandList struct {
 	Path    string
-	Modules []CommandModule
+	Modules []*CommandModule
 }
 
 // save CLI commands to base file path
@@ -44,6 +44,27 @@ func (l *CommandList) Save() error {
 	return nil
 }
 
+// loads the specified command file
+func (l *CommandList) Load() error {
+	file, err := os.Open(l.Path)
+	if err != nil {
+		return fmt.Errorf("unable to open command file %s", err)
+	}
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		line := scanner.Bytes()
+		var module *CommandModule
+		err := json.Unmarshal(line, module)
+		if err != nil {
+			return fmt.Errorf("unable to unmarshal json from file: %s", err)
+		}
+		l.Modules = append(l.Modules, module)
+	}
+	return nil
+}
+
 // add new commands to list, saves list
 func (l *CommandList) AddModule(path string) error {
 	file, err := os.Open(path)
@@ -55,7 +76,7 @@ func (l *CommandList) AddModule(path string) error {
 
 	for scanner.Scan() {
 		line := scanner.Bytes()
-		var module CommandModule
+		var module *CommandModule
 		err := json.Unmarshal(line, module)
 		if err != nil {
 			return fmt.Errorf("unable to unmarshal json from file: %s", err)
@@ -77,9 +98,9 @@ func (l *CommandList) RemoveModule(module_name string) error {
 }
 
 // searches list for the name of a command, returns an error if nothing can be found
-func (l *CommandList) FindCommand(module_name string, command_name string) (Command, error) {
+func (l *CommandList) FindCommand(module_name string, command_name string) (*Command, error) {
 
-	ret_command := Command{Name: "nil"}
+	ret_command := &Command{Name: "nil"}
 
 	for _, module := range l.Modules {
 		if module.Name == module_name {

@@ -1,0 +1,1 @@
+{"name":"Test","description":"This is a test module","path":"","commands":[{"name":"base","description":"This is a test command for the test module","usage":"base","function":"TestBase"}]}
