@@ -45,10 +45,11 @@ func (l *CommandList) Save() error {
 }
 
 // loads the specified command file
-func (l *CommandList) Load() error {
-	file, err := os.Open(l.Path)
+func Load(path string) (*CommandList, error) {
+	l := &CommandList{Path: path}
+	file, err := os.Open(path)
 	if err != nil {
-		return fmt.Errorf("unable to open command file %s", err)
+		return nil, fmt.Errorf("unable to open command file %s", err)
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
@@ -58,11 +59,11 @@ func (l *CommandList) Load() error {
 		var module *CommandModule
 		err := json.Unmarshal(line, module)
 		if err != nil {
-			return fmt.Errorf("unable to unmarshal json from file: %s", err)
+			return nil, fmt.Errorf("unable to unmarshal json from file: %s", err)
 		}
 		l.Modules = append(l.Modules, module)
 	}
-	return nil
+	return l, nil
 }
 
 // add new commands to list, saves list
