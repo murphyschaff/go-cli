@@ -17,15 +17,14 @@ type Interface interface {
 }
 
 type BaseInterface struct {
-	Commands    CommandList
+	Commands    *CommandList
 	ProgramName string
 	CommandPath string
 }
 
 // creates new BaseInterfae objet
-func New(name string, path string) (*BaseInterface, error) {
-	commands := CommandList{Path: path}
-	err := commands.Load()
+func NewInterface(name string, path string) (*BaseInterface, error) {
+	commands, err := Load(path)
 	if err != nil {
 		return nil, fmt.Errorf("unable to start interface: %s", err)
 	}

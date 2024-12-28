@@ -45,7 +45,7 @@ func (l *CommandList) Save() error {
 }
 
 // loads the specified command file
-func Load(path string) (*CommandList, error) {
+func NewCommandList(path string) (*CommandList, error) {
 	l := &CommandList{Path: path}
 	file, err := os.Open(path)
 	if err != nil {
