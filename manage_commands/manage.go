@@ -39,7 +39,7 @@ func main() {
 			fmt.Println("Invalid filetype entered. Please enter a filepath to a JSON file")
 			os.Exit(1)
 		}
-		list := cli.Load(args[0])
+		list := cli.NewCommandList(args[0])
 
 		Edit(&list)
 		list.Save()

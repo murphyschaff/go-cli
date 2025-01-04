@@ -24,7 +24,7 @@ type BaseInterface struct {
 
 // creates new BaseInterfae objet
 func NewInterface(name string, path string) (*BaseInterface, error) {
-	commands, err := Load(path)
+	commands, err := NewCommandList(path)
 	if err != nil {
 		return nil, fmt.Errorf("unable to start interface: %s", err)
 	}

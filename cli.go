@@ -12,6 +12,7 @@ type Command struct {
 	Description string `json:"description"`
 	Usage       string `json:"usage"`
 	Function    string `json:"function"`
+	APIPath     string `json:"apipath"`
 }
 
 type CommandModule struct {
