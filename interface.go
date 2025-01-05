@@ -22,7 +22,7 @@ type BaseInterface struct {
 	CommandPath string
 }
 
-// creates new BaseInterfae objet
+// creates new BaseInterface object
 func NewInterface(name string, path string) (*BaseInterface, error) {
 	commands, err := NewCommandList(path)
 	if err != nil {
@@ -85,18 +85,23 @@ func (b *BaseInterface) ListModule(module_name string) {
 			return
 		}
 	}
-	fmt.Println("Unable to find module in list.")
+	fmt.Println("Unable to find module in list")
 }
 
 // lists all commands with given name in the list
 func (b *BaseInterface) ListCommand(command_name string) {
+	counter := 0
 	for _, module := range b.Commands.Modules {
 		for _, command := range module.Commands {
 			if command.Name == command_name {
 				fmt.Printf("Module: %s\nDescription: %s", module.Name, module.Description)
 				fmt.Printf("\tCommand: %s\n\tDescription: %s\n\tUsage: %s\n\t", command.Name, command.Description, command.Usage)
+				counter++
 			}
 		}
+	}
+	if counter == 0 {
+		fmt.Println("Unable to find command in list")
 	}
 }
 
