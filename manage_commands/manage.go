@@ -116,10 +116,12 @@ func AddCommand(module *cli.CommandModule) {
 	description := validate("Command Description")
 	fmt.Printf("Please enter the usage for %s: ", name)
 	usage := validate("Command Usage")
-	fmt.Printf("Please enter the function name %s will call: ", name)
+	fmt.Printf("Please enter the function name %s will call (if needed): ", name)
 	function := validate("Command Function")
+	fmt.Printf("Please enter the API path %s will call (if needed): ", name)
+	apipath := validate("API Path")
 
-	command := cli.Command{Name: name, Description: description, Usage: usage, Function: function}
+	command := cli.Command{Name: name, Description: description, Usage: usage, Function: function, APIPath: apipath}
 
 	module.Commands = append(module.Commands, command)
 
