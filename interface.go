@@ -7,7 +7,7 @@ import (
 
 type Interface interface {
 	//implemented with BaseInterface
-	Initialize(path string) error    //initializes interface
+	NewInterface(path string) error  //initializes interface
 	Run() error                      //runs interface, waits for user input
 	ListAll()                        //lists all commands in all modules
 	ListModule(module_name string)   //lists all commands in given module

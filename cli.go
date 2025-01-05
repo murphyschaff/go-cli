@@ -57,12 +57,12 @@ func NewCommandList(path string) (*CommandList, error) {
 
 	for scanner.Scan() {
 		line := scanner.Bytes()
-		var module *CommandModule
-		err := json.Unmarshal(line, module)
+		var module CommandModule
+		err := json.Unmarshal(line, &module)
 		if err != nil {
 			return nil, fmt.Errorf("unable to unmarshal json from file: %s", err)
 		}
-		l.Modules = append(l.Modules, module)
+		l.Modules = append(l.Modules, &module)
 	}
 	return l, nil
 }

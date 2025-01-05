@@ -1,1 +1,1 @@
-{"name":"Test","description":"This is a test module","path":"","commands":[{"name":"base","description":"This is a test command for the test module","usage":"base","function":"TestBase"}]}
+{"name":"Module","description":"This is a test module to be used to test the interface","path":"","commands":[{"name":"test_command","description":"This is a test command","usage":"","function":"NA","apipath":"/test/command"}]}

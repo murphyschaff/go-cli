@@ -39,9 +39,12 @@ func main() {
 			fmt.Println("Invalid filetype entered. Please enter a filepath to a JSON file")
 			os.Exit(1)
 		}
-		list := cli.NewCommandList(args[0])
-
-		Edit(&list)
+		list, err := cli.NewCommandList(args[0])
+		if err != nil {
+			fmt.Println("Unable to create command list")
+			os.Exit(1)
+		}
+		Edit(list)
 		list.Save()
 		fmt.Println("Changes saved, exiting program.")
 
@@ -123,7 +126,7 @@ func AddCommand(module *cli.CommandModule) {
 
 	command := cli.Command{Name: name, Description: description, Usage: usage, Function: function, APIPath: apipath}
 
-	module.Commands = append(module.Commands, command)
+	module.Commands = append(module.Commands, &command)
 
 }
 
@@ -137,7 +140,7 @@ func AddModule(list *cli.CommandList) {
 	for {
 		AddCommand(&module)
 		if !YN("Would you like to add another command to the " + name + " module?") {
-			list.Modules = append(list.Modules, module)
+			list.Modules = append(list.Modules, &module)
 			break
 		}
 	}
@@ -159,7 +162,7 @@ func Edit(list *cli.CommandList) {
 				edit = false
 			}
 		} else {
-			EditModule(&list.Modules[choice-1])
+			EditModule(list.Modules[choice-1])
 		}
 	}
 }
@@ -182,7 +185,7 @@ func EditModule(module *cli.CommandModule) {
 		} else if choice == counter {
 			return
 		} else {
-			EditCommand(&module.Commands[choice-1])
+			EditCommand(module.Commands[choice-1])
 		}
 	}
 }
