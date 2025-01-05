@@ -7,13 +7,14 @@ import (
 
 type Interface interface {
 	//implemented with BaseInterface
-	NewInterface(path string) error  //initializes interface
-	Run() error                      //runs interface, waits for user input
-	ListAll()                        //lists all commands in all modules
-	ListModule(module_name string)   //lists all commands in given module
-	ListCommand(command_name string) //lists the command and usage
+	NewInterface(path string) error      //initializes interface
+	Run() error                          //runs interface, waits for user input
+	List()                               //lists all commands in all modules
+	ListModule(module_name string)       //lists all commands in given module
+	ListCommand(command_name string)     //lists the command and usage
+	GetData() (*Command, string, string) //gets each item from BaseInterfase structure
 
-	Query(query string) error //NEEDED: where the commands are matched to functions in program
+	Query(query []string) error //NEEDED: where the commands are matched to functions in program
 }
 
 type BaseInterface struct {
@@ -34,10 +35,11 @@ func NewInterface(name string, path string) (*BaseInterface, error) {
 }
 
 // loop that runs the CLI interface
-func (b *BaseInterface) Run() error {
+func Run(i Interface) error {
 	var input string
+	_, ProgramName, _ := i.GetData()
 	for {
-		fmt.Print(b.ProgramName + ">: ")
+		fmt.Print(ProgramName + ">: ")
 		fmt.Scanln(&input)
 
 		query := strings.Split(input, " ")
@@ -45,11 +47,11 @@ func (b *BaseInterface) Run() error {
 		//check built in commands first
 		if len_query <= 3 && query[0] == "list" {
 			if len_query == 3 && query[1] == "command" {
-				b.ListCommand(query[3])
+				i.ListCommand(query[3])
 			} else if len_query == 2 {
-				b.ListModule(query[2])
+				i.ListModule(query[2])
 			} else {
-				b.List()
+				i.List()
 			}
 		}
 		if len_query == 1 && query[0] == "exit" {
@@ -57,11 +59,15 @@ func (b *BaseInterface) Run() error {
 			return nil
 		}
 		//run query
-		err := b.Query(query)
+		err := i.Query(query)
 		if err != nil {
 			return fmt.Errorf("failed to run query: %s", err)
 		}
 	}
+}
+
+func (b *BaseInterface) GetData() (*CommandList, string, string) {
+	return b.Commands, b.ProgramName, b.CommandPath
 }
 
 // list the command and usage for each command in the list
