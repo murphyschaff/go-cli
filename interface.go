@@ -7,10 +7,10 @@ import (
 
 type Interface interface {
 	//implemented with BaseInterface
-	List()                               //lists all commands in all modules
-	ListModule(module_name string)       //lists all commands in given module
-	ListCommand(command_name string)     //lists the command and usage
-	GetData() (*Command, string, string) //gets each item from interface structure
+	List()                                   //lists all commands in all modules
+	ListModule(module_name string)           //lists all commands in given module
+	ListCommand(command_name string)         //lists the command and usage
+	GetData() (*CommandList, string, string) //gets each item from interface structure
 
 	Query(query []string) error //NEEDED: where the commands are matched to functions in program
 }
