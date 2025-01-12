@@ -12,6 +12,7 @@ type Interface interface {
 	ListCommand(command_name string)         //lists the command and usage
 	GetData() (*CommandList, string, string) //gets each item from interface structure
 
+	CreateMap()                 //NEEDED: Creates a map of each command to its function call
 	Query(query []string) error //NEEDED: where the commands are matched to functions in program
 }
 
@@ -19,6 +20,7 @@ type BaseInterface struct {
 	Commands    *CommandList
 	ProgramName string
 	CommandPath string
+	FunctionMap *map[string]func(...string)
 }
 
 // creates new BaseInterface object
@@ -36,6 +38,7 @@ func NewInterface(name string, path string) (*BaseInterface, error) {
 func Run(i Interface) error {
 	var input string
 	_, ProgramName, _ := i.GetData()
+	i.CreateMap()
 	for {
 		fmt.Print(ProgramName + ">: ")
 		fmt.Scanln(&input)
@@ -109,8 +112,13 @@ func (b *BaseInterface) ListCommand(command_name string) {
 	}
 }
 
-// matches given commands to functions
+// IMPLEMENT: matches given commands to functions
 func (b *BaseInterface) Query(query []string) error {
 	fmt.Println("Implement me.")
 	return nil
+}
+
+// IMPLEMENT: creates a map of each command to its respective function call
+func (b *BaseInterface) CreateMap() {
+	b.FunctionMap = &map[string]func(...string){}
 }

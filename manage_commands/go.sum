@@ -1,2 +1,4 @@
 github.com/murphyschaff/go-cli v0.0.0-20250105000540-449626b4fd24 h1:hZGhhjaF+SZL/Tb/vtHHiBLiViYZwu/2uC5BMGQc0oQ=
 github.com/murphyschaff/go-cli v0.0.0-20250105000540-449626b4fd24/go.mod h1:PrtgrbwORFHldYE+8htdDq+gsJ2TDeAUxIvXp48ZZIw=
+github.com/murphyschaff/go-cli v0.0.0-20250105235802-115c356a7921 h1:YYDzCqbH6Gmj9XT52gTA0ZAtTLc5BaK25+nQxk0LUMM=
+github.com/murphyschaff/go-cli v0.0.0-20250105235802-115c356a7921/go.mod h1:PrtgrbwORFHldYE+8htdDq+gsJ2TDeAUxIvXp48ZZIw=
